@@ -44,6 +44,7 @@ A RESTful API built with TypeScript, Express, and MongoDB for user registration,
 ### Swagger API Documentation
 - OpenAPI 3.0 spec in `api-swagger.yaml` (and `src/api-swagger.yaml`)
 - Swagger is set up in `src/config/swagger.ts` and served at `/api-docs` using `swagger-ui-express`
+- **Swagger UI available at:** `http://localhost:5000/api-docs` (or your configured PORT)
 
 ### Winston Logging
 - Configured in `src/config/winston.ts`
@@ -51,6 +52,19 @@ A RESTful API built with TypeScript, Express, and MongoDB for user registration,
   - `logs/combined.log` (all logs)
   - `logs/error.log` (errors only)
 - Used throughout the app for info, warning, and error logs
+
+## Required Environment Variables
+
+Create a `.env` file in the project root with the following keys:
+
+```
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+PORT=5000 # or any port you prefer
+```
 
 ---
 
