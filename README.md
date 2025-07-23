@@ -81,12 +81,8 @@ PORT=5000 # or any port you prefer
    ```bash
    npm install
    ```
-2. Create a `.env` file with your MongoDB URI and JWT secret:
-   ```env
-   MONGODB_URI=your_mongodb_uri
-   JWT_SECRET=your_jwt_secret
-   ```
-3. Run the development server:
+
+2. Run the development server:
    ```bash
    npm run dev
    ```
