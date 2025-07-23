@@ -1,0 +1,22 @@
+erDiagram
+  User {
+    string _id
+    string name
+    string email
+    string password
+    string phoneNo
+    boolean isActive
+    boolean isDeleted
+    date createdAt
+    date updatedAt
+  }
+  Image {
+    string _id
+    string storedUrl
+    string publicId
+    boolean isPublic
+    ObjectId userId
+    date createdAt
+    date updatedAt
+  }
+  User ||--o{ Image : "has" 
