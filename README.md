@@ -53,6 +53,14 @@ A RESTful API built with TypeScript, Express, and MongoDB for user registration,
   - `logs/error.log` (errors only)
 - Used throughout the app for info, warning, and error logs
 
+## Entity Relationship Diagram (ERD)
+
+The ERD for the User and Image models is defined in [mermaid.mmd](./mermaid.mmd).
+
+You can view the diagram as an image by:
+- Using a Mermaid live editor: https://mermaid.live/
+- Or, with a Mermaid plugin/extension in your code editor (e.g., VS Code Mermaid Preview)
+
 ## Required Environment Variables
 
 Create a `.env` file in the project root with the following keys:
