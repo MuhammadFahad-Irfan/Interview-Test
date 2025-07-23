@@ -1,0 +1,260 @@
+openapi: 3.0.0
+info:
+  title: BeeUnity API
+  version: 1.0.0
+  description: Swagger documentation for BeeUnity API
+tags:
+  - name: Users
+    description: Operations related to user registration, authentication, and profiles
+  - name: Images
+    description: Operations related to image upload, retrieval, and deletion
+servers:
+  - url: /api
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        isActive:
+          type: boolean
+        isDeleted:
+          type: boolean
+        phoneNo:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    UserRegister:
+      type: object
+      required: [name, password, phoneNo]
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+        phoneNo:
+          type: string
+    UserLogin:
+      type: object
+      required: [phoneNo, password]
+      properties:
+        phoneNo:
+          type: string
+        password:
+          type: string
+    UserUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        phoneNo:
+          type: string
+    Image:
+      type: object
+      properties:
+        _id:
+          type: string
+        storedId:
+          type: string
+        isPublic:
+          type: boolean
+        userId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ImageUpload:
+      type: object
+      properties:
+        isPublic:
+          type: boolean
+      required: [isPublic]
+paths:
+  /users/register:
+    post:
+      tags:
+        - Users
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserRegister'
+      responses:
+        '201':
+          description: User registered successfully
+        '400':
+          description: Missing fields
+        '409':
+          description: Phone number already registered
+  /users/login:
+    post:
+      tags:
+        - Users
+      summary: Login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLogin'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+        '401':
+          description: Invalid credentials
+  /users/me:
+    get:
+      tags:
+        - Users
+      summary: Get current user's profile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+    put:
+      tags:
+        - Users
+      summary: Update current user's profile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Updated user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+  /users/{userId}:
+    get:
+      tags:
+        - Users
+      summary: Get public profile by user ID
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: User profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+  /images/upload:
+    post:
+      tags:
+        - Images
+      summary: Upload an image
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                image:
+                  type: string
+                  format: binary
+                isPublic:
+                  type: boolean
+      responses:
+        '201':
+          description: Image uploaded
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+        '400':
+          description: No file uploaded
+  /images/user/{userId}:
+    get:
+      tags:
+        - Images
+      summary: Get images for a user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: List of images
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Image'
+  /images/{imageId}:
+    delete:
+      tags:
+        - Images
+      summary: Delete an image
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: imageId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Image deleted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '403':
+          description: Not authorized
+        '404':
+          description: Image not found 

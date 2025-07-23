@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+     "module": "commonjs",
+     "esModuleInterop": true,
+     "target": "es2020",
+     "allowSyntheticDefaultImports": true,
+
+     "strict": true,
+     "moduleResolution": "node",
+     "sourceMap": true,
+     "outDir": "build",
+     "baseUrl": ".",
+     "paths": {
+        "*": ["node_modules/*", "src/interfaces/*"]
+     },
+     "lib": ["es2020"],
+     "resolveJsonModule": true,
+     "skipLibCheck": true
+  },
+  "include": ["src/**/*", "eslint.config.js"],
+  "files": ["src/interfaces/global.d.ts"]
+}
